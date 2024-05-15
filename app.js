@@ -20,6 +20,9 @@ const processfriendapplicationRouter = require('./routes/processFriendApplicatio
 const getfriendRouter = require('./routes/getfriend');
 const addneighborRouter = require('./routes/addNeighbor');
 const getneighborRouter = require('./routes/getNeighbor');
+const getblockRouter = require('./routes/getBlock');
+const gethoodRouter = require('./routes/getHood');
+// const addfollowblockRouter = require('./routes/addFollowBlock');
 
 const app = express();
 
@@ -70,6 +73,9 @@ app.use('/api/processfriendapplication', processfriendapplicationRouter);
 app.use('/api/getfriend', getfriendRouter);
 app.use('/api/addneighbor', addneighborRouter);
 app.use('/api/getneighbor', getneighborRouter);
+app.use('/api/getblock', getblockRouter);
+app.use('/api/gethood', gethoodRouter);
+// app.use('/api/addfollowblock', addfollowblockRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

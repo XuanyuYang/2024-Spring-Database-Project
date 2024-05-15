@@ -5,7 +5,21 @@ const router = express.Router();
 router.post('/', async (req, res, next) => {
     try {
         const pool = require('../app').pool;
-        const { userID, neighborID } = req.body;
+        const { userID, neighborname } = req.body;
+
+        // console.log("get data: " + userID + " " + neighborname);
+        // console.log("type is: " + (typeof userID) + " " + (typeof neighborname));
+
+        // 查询neighborID
+        const userQuery = {
+            text: 'SELECT userID FROM Users WHERE name = $1',
+            values: [neighborname],
+        };
+        const userResult = await pool.query(userQuery);
+        if (userResult.rows.length === 0) {
+            return res.status(404).json({ success: false, message: 'The neighbor you want to add does not exist.' });
+        }
+        const neighborID = userResult.rows[0].userid;
 
         // 是否已经添加了该邻居
         const checkQuery = {
@@ -14,7 +28,7 @@ router.post('/', async (req, res, next) => {
         };
         const checkResult = await pool.query(checkQuery);
         if (checkResult.rows.length > 0) {
-            return res.json({ success: false, message: 'You have already added this neighbor.' });
+            return res.status(400).json({ success: false, message: 'You have already added this neighbor.' });
         }
 
         // 获取对应 blockID
@@ -24,7 +38,7 @@ router.post('/', async (req, res, next) => {
         };
         const userBlockResult = await pool.query(userBlockQuery);
         if (userBlockResult.rows.length === 0) {
-            return res.json({ success: false, message: 'You are not member of a block.' });
+            return res.status(400).json({ success: false, message: 'You are not member of a block.' });
         }
         const userBlockID = userBlockResult.rows[0].blockid;
 
@@ -34,22 +48,23 @@ router.post('/', async (req, res, next) => {
         };
         const neighborBlockResult = await pool.query(neighborBlockQuery);
         if (neighborBlockResult.rows.length === 0) {
-            return res.json({ success: false, message: 'The neighbor is not a member of a block.' });
+            return res.status(400).json({ success: false, message: 'The neighbor is not a member of a block.' });
         }
         const neighborBlockID = neighborBlockResult.rows[0].blockid;
 
-        if (userBlockID !== neighborBlockID) {
-            return res.json({ success: false, message: 'You are not in the same block.' });
+        if (userBlockID === neighborBlockID) {
+            // 插入新数据
+            const insertQuery = {
+                text: 'INSERT INTO Neighbors (userID, neighborID) VALUES ($1, $2)',
+                values: [userID, neighborID],
+            };
+            await pool.query(insertQuery);
+
+            return res.status(200).json({ success: true, message: 'Neighbor added successfully.' });
         }
 
-        // 插入新数据
-        const insertQuery = {
-            text: 'INSERT INTO Neighbors (userID, neighborID) VALUES ($1, $2)',
-            values: [userID, neighborID],
-        };
-        await pool.query(insertQuery);
+        return res.status(400).json({ success: false, message: 'You are not in the same block.' });
 
-        res.json({ success: true, message: 'Neighbor added successfully.' });
     } catch (error) {
         console.error('Error:', error);
         res.status(500).json({ success: false, message: 'Internal Server Error' });
