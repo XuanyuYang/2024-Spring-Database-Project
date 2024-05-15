@@ -22,7 +22,9 @@ const addneighborRouter = require('./routes/addNeighbor');
 const getneighborRouter = require('./routes/getNeighbor');
 const getblockRouter = require('./routes/getBlock');
 const gethoodRouter = require('./routes/getHood');
-// const addfollowblockRouter = require('./routes/addFollowBlock');
+const addfollowblockRouter = require('./routes/addFollowBlock');
+// const addthreadRouter = require('./routes/addThread');
+// const addmessageRouter = require('./routes/addMessage');
 
 const app = express();
 
@@ -75,7 +77,9 @@ app.use('/api/addneighbor', addneighborRouter);
 app.use('/api/getneighbor', getneighborRouter);
 app.use('/api/getblock', getblockRouter);
 app.use('/api/gethood', gethoodRouter);
-// app.use('/api/addfollowblock', addfollowblockRouter);
+app.use('/api/addfollowblock', addfollowblockRouter);
+// app.use('/api/addthread', addthreadRouter);
+// app.use('/api/addmessage', addmessageRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
