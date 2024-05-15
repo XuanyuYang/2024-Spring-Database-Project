@@ -11,6 +11,10 @@ const usersRouter = require('./routes/users');
 const loginRouter = require('./routes/login');
 const registerRouter = require('./routes/register');
 const addblockRouter = require('./routes/addBlock');
+const logoutRouter = require('./routes/logout');
+const getblockapplicationRouter = require('./routes/getBlockApplication');
+const processblockapplicationRouter = require('./routes/processBlockApplication');
+const getfriendapplicationRouter = require('./routes/getFriendApplication');
 // const getfriendRouter = require('./routes/getfriend');
 // const addNeighborRouter = require('./routes/addNeighbor');
 
@@ -54,6 +58,10 @@ app.use('/users', usersRouter);
 app.use('/api/login', loginRouter);
 app.use('/api/register', registerRouter);
 app.use('/api/addblock', addblockRouter);
+app.use('/api/logout', logoutRouter);
+app.use('/api/getblockapplication', getblockapplicationRouter);
+app.use('/api/processblockapplication', processblockapplicationRouter);
+// app.use('/api/getfriendapplication', getfriendapplicationRouter);
 // app.use('api/getfriend', getfriendRouter);
 // app.use('api/addNeighbor', addNeighborRouter);
 
