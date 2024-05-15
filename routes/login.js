@@ -14,8 +14,10 @@ router.post('/', async (req, res, next) => {
         const result = await pool.query(query);
 
         if (result.rows.length > 0) {
-            const userId = result.rows[0].userID;
-            res.json({ success: true, userId, message: 'Login successful' });
+            // console.log(result.rows);
+            const userId = result.rows[0].userid;
+            // console.log(userId);
+            res.json({ success: true, userId, username, message: 'Login successful' });
         } else {
             res.status(401).json({ success: false, message: 'Invalid username or password' });
         }

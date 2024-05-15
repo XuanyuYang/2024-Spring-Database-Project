@@ -10,6 +10,9 @@ const indexRouter = require('./routes/index');
 const usersRouter = require('./routes/users');
 const loginRouter = require('./routes/login');
 const registerRouter = require('./routes/register');
+const addblockRouter = require('./routes/addBlock');
+// const getfriendRouter = require('./routes/getfriend');
+// const addNeighborRouter = require('./routes/addNeighbor');
 
 const app = express();
 
@@ -24,12 +27,12 @@ const pool = new Pool({
 
 async function initializePool() {
   try {
-    await pool.connect(); // 等待连接成功
+    await pool.connect();
     console.log('Postgres connected');
-    module.exports = { pool }; // 连接成功后导出 pool 对象
+    module.exports = { pool };
   } catch (err) {
     console.error('Postgres connection error:', err);
-    process.exit(1); // 连接失败时退出应用程序
+    process.exit(1);
   }
 }
 
@@ -50,6 +53,9 @@ app.use('/', indexRouter);
 app.use('/users', usersRouter);
 app.use('/api/login', loginRouter);
 app.use('/api/register', registerRouter);
+app.use('/api/addblock', addblockRouter);
+// app.use('api/getfriend', getfriendRouter);
+// app.use('api/addNeighbor', addNeighborRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
