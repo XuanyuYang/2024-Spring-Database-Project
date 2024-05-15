@@ -19,6 +19,17 @@ router.post('/', async (req, res) => {
         }
         const friendID = userResult.rows[0].userid;
 
+        // 判断好友关系是否已经存在
+        const checkFriendshipQuery = {
+            text: 'SELECT * FROM Friends WHERE (userID = $1 AND friendID = $2) OR (userID = $2 AND friendID = $1)',
+            values: [userID, friendID],
+        };
+        const friendshipResult = await pool.query(checkFriendshipQuery);
+
+        if (friendshipResult.rows.length > 0) {
+            return res.status(400).json({ success: false, message: 'You are already friends with this user.' });
+        }
+
         // 修改历史未通过申请
         const updateQuery = {
             text: 'UPDATE FriendApplication SET fAppStatus = $1 WHERE fromID = $2 AND toID = $3',

@@ -15,9 +15,11 @@ const logoutRouter = require('./routes/logout');
 const getblockapplicationRouter = require('./routes/getBlockApplication');
 const processblockapplicationRouter = require('./routes/processBlockApplication');
 const addfriendRouter = require('./routes/addFriend');
-// const getfriendapplicationRouter = require('./routes/getFriendApplication');
-// const getfriendRouter = require('./routes/getfriend');
-// const addNeighborRouter = require('./routes/addNeighbor');
+const getfriendapplicationRouter = require('./routes/getFriendApplication');
+const processfriendapplicationRouter = require('./routes/processFriendApplication');
+const getfriendRouter = require('./routes/getfriend');
+const addneighborRouter = require('./routes/addNeighbor');
+const getneighborRouter = require('./routes/getNeighbor');
 
 const app = express();
 
@@ -63,9 +65,11 @@ app.use('/api/logout', logoutRouter);
 app.use('/api/getblockapplication', getblockapplicationRouter);
 app.use('/api/processblockapplication', processblockapplicationRouter);
 app.use('/api/addfriend', addfriendRouter);
-// app.use('/api/getfriendapplication', getfriendapplicationRouter);
-// app.use('api/getfriend', getfriendRouter);
-// app.use('api/addNeighbor', addNeighborRouter);
+app.use('/api/getfriendapplication', getfriendapplicationRouter);
+app.use('/api/processfriendapplication', processfriendapplicationRouter);
+app.use('/api/getfriend', getfriendRouter);
+app.use('/api/addneighbor', addneighborRouter);
+app.use('/api/getneighbor', getneighborRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
