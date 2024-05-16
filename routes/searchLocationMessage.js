@@ -7,20 +7,21 @@ router.post('/', async (req, res) => {
         const pool = require('../app').pool;
         const { userID, location, radius } = req.body;
 
-        const pointText = `geometry(POINT(${location.lng}, ${location.lat}))`
+        console.log(req.body);
 
+        const pointText = `geometry(POINT(${location.lng}, ${location.lat}))`;
         // 所有message
         const query = {
-            text: `SELECT Authenticity.messageID, type, Messages.threadID, mTitle, mCreateTime,
-                            mCreatorID, M.name AS mCreatorName, M.userPhoto AS mPhoto, mLocation, textBody,
-                            tType, tCreatorID, T.name AS tCreatorName, T.userPhoto AS tPhoto, tCreateTime
-                   FROM Authenticity JOIN Messages ON Authenticity.messageID = Messages.messageID
-                   JOIN Threads ON Messages.threadID = Threads.threadID
-                   JOIN Users AS M ON M.userID = Messages.mCreatorID
-                   JOIN Users AS T ON T.userID = Threads.tCreatorID
-                   WHERE Authenticity.userID = $1 AND ST_DWithin(geometry(mLocation), $2, $3)
-                   ORDER BY mCreateTime DESC`,
-            values: [userID, pointText, radius],
+            text: 'SELECT Authenticity.messageID, type, Messages.threadID, mTitle, mCreateTime, ' +
+                            'mCreatorID, M.name AS mCreatorName, M.userPhoto AS mPhoto, mLocation, textBody, ' +
+                            'tType, tCreatorID, T.name AS tCreatorName, T.userPhoto AS tPhoto, tCreateTime ' +
+                   'FROM Authenticity JOIN Messages ON Authenticity.messageID = Messages.messageID ' +
+                   'JOIN Threads ON Messages.threadID = Threads.threadID ' +
+                   'JOIN Users AS M ON M.userID = Messages.mCreatorID ' +
+                   'JOIN Users AS T ON T.userID = Threads.tCreatorID ' +
+                   'WHERE Authenticity.userID = $1 AND mLocation IS NOT NULL AND ST_DWithin(geometry(mLocation), ' + pointText + ', $2) ' +
+                   'ORDER BY mCreateTime DESC',
+            values: [userID, radius],
         };
 
         const queryResult = await pool.query(query);

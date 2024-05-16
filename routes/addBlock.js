@@ -42,8 +42,8 @@ router.post('/', async (req, res, next) => {
         } else {
             // 将原有的申请全部终止，设置为rejected
             const updateQuery = {
-                text: 'UPDATE BlockApplication SET bAppStatus = $1 WHERE fromID = $2 AND toBlockID = $3',
-                values: ['rejected', userId, blockID],
+                text: 'UPDATE BlockApplication SET bAppStatus = $1 WHERE fromID = $2 AND toBlockID = $3 AND bAppStatus = $4',
+                values: ['rejected', userId, blockID, 'pending'],
             };
             await pool.query(updateQuery);
 
