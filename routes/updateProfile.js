@@ -60,7 +60,7 @@ router.post('/', async (req, res, next) => {
         if (pointText !== null) {
             const blockQuery = {
                 text: 'SELECT blockID FROM Blocks WHERE ST_DWithin(geometry(blockCenter), $1, blockRadius)',
-                values: ['geometry(pointText)'],
+                values: [`geometry(${pointText})`],
             };
             const blockResult = await pool.query(blockQuery);
             newBlockID = blockResult.rows.map(row => row.blockID);

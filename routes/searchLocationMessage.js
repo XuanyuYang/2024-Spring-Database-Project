@@ -1,13 +1,13 @@
 const express = require('express');
 const router = express.Router();
 
-// POST /api/searchkeywordmessage
+// POST /api/searchlocationmessage
 router.post('/', async (req, res) => {
     try {
         const pool = require('../app').pool;
-        const { userID, keyword } = req.body;
+        const { userID, location, radius } = req.body;
 
-        // console.log(req.body);
+        const pointText = `geometry(POINT(${location.lng}, ${location.lat}))`
 
         // 所有message
         const query = {
@@ -18,9 +18,9 @@ router.post('/', async (req, res) => {
                    JOIN Threads ON Messages.threadID = Threads.threadID
                    JOIN Users AS M ON M.userID = Messages.mCreatorID
                    JOIN Users AS T ON T.userID = Threads.tCreatorID
-                   WHERE Authenticity.userID = $1 AND textBody LIKE $2
+                   WHERE Authenticity.userID = $1 AND ST_DWithin(geometry(mLocation), $2, $3)
                    ORDER BY mCreateTime DESC`,
-            values: [userID, `%${keyword}%`],
+            values: [userID, pointText, radius],
         };
 
         const queryResult = await pool.query(query);
