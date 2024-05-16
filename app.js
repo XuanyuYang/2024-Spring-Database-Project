@@ -31,6 +31,8 @@ const updateprofileRouter = require('./routes/updateProfile');
 const searchkeywordmessageRouter = require('./routes/searchKeywordMessage');
 const searchlocationmessageRouter = require('./routes/searchLocationMessage');
 const exitblockRouter = require('./routes/exitBlock');
+const getlastloginRouter = require('./routes/getLastLogin');
+const getnewmemberprofileRouter = require('./routes/getNewMemberProfile');
 
 const app = express();
 
@@ -92,6 +94,8 @@ app.use('/api/updateprofile', updateprofileRouter);
 app.use('/api/searchkeywordmessage', searchkeywordmessageRouter);
 app.use('/api/searchlocationmessage', searchlocationmessageRouter);
 app.use('/api/exitblock', exitblockRouter);
+app.use('/api/getlastlogin', getlastloginRouter);
+app.use('/api/getnewmemberprofile', getnewmemberprofileRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

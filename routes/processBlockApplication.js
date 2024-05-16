@@ -5,12 +5,12 @@ const router = express.Router();
 router.post('/', async (req, res, next) => {
     try {
         const pool = require('../app').pool;
-        const { userId, bAppID, decision } = req.body;
+        const { userId, bAppID, decision, timestamp } = req.body;
 
         // 插入新的处理记录
         const insertDecisionQuery = {
-            text: 'INSERT INTO BlockApplicationDecision (bAppID, userID, decision) VALUES ($1, $2, $3)',
-            values: [bAppID, userId, decision],
+            text: 'INSERT INTO BlockApplicationDecision (bAppID, userID, decision, time) VALUES ($1, $2, $3, $4)',
+            values: [bAppID, userId, decision, timestamp],
         };
         await pool.query(insertDecisionQuery);
 
@@ -58,6 +58,14 @@ router.post('/', async (req, res, next) => {
                     values: [blockAppResult.rows[0].fromid, blockAppResult.rows[0].toblockid],
                 };
                 await pool.query(insertUserBlockQuery);
+
+                // 如果已经follow了该block，退出follow
+                const removeFollowQuery = {
+                    text: 'DELETE FROM UserFollow WHERE userID = $1 AND blockID = $2',
+                    values: [blockAppResult.rows[0].fromid, blockAppResult.rows[0].toblockid],
+                };
+                await pool.query(removeFollowQuery);
+
                 return res.status(200).json({ success: true, message: 'Approval processed successfully. The application is approved.' });
             }
 

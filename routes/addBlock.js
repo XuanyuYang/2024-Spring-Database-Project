@@ -76,6 +76,14 @@ router.post('/', async (req, res, next) => {
                     pool.query(insertQuery),
                     pool.query(userBlockInsertQuery),
                 ]);
+
+                // 如果之前follow了该block，那么移除follow
+                const removeFollowQuery = {
+                    text: 'DELETE FROM UserFollow WHERE userID = $1 AND blockID = $2',
+                    values: [userId, blockID],
+                };
+                await pool.query(removeFollowQuery);
+
                 res.json({ success: true, message: 'Joined Block.' });
             }
         }
