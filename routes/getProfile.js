@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 
+// POST /api/getprofile
 router.post('/', async (req, res) => {
     try {
         const pool = require('../app').pool;
@@ -18,8 +19,8 @@ router.post('/', async (req, res) => {
             password: row.password,
             userAddress: row.useraddress,
             homeLocation: {
-                lng: row.homelocation.x,
-                lat: row.homelocation.y
+                lng: row.homelocation ? row.homelocation.x : null,
+                lat: row.homelocation ? row.homelocation.y : null
             },
             userProfile: row.userprofile,
             userPhoto: row.userphoto

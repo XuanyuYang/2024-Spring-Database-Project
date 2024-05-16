@@ -27,6 +27,8 @@ const addthreadRouter = require('./routes/addThread');
 const getmessageRouter = require('./routes/getMessage');
 const addmessageRouter = require('./routes/addMessage');
 const getprofileRouter = require('./routes/getprofile');
+const updateprofileRouter = require('./routes/updateProfile');
+const searchkeywordmessageRouter = require('./routes/searchKeywordMessage');
 
 const app = express();
 
@@ -84,6 +86,8 @@ app.use('/api/addthread', addthreadRouter);
 app.use('/api/getmessage', getmessageRouter);
 app.use('/api/addmessage', addmessageRouter);
 app.use('/api/getprofile', getprofileRouter);
+app.use('/api/updateprofile', updateprofileRouter);
+app.use('/api/searchkeywordmessage', searchkeywordmessageRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
