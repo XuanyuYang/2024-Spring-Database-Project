@@ -26,8 +26,7 @@ router.post('/', async (req, res, next) => {
                    JOIN BlockApplicationDecision ON BlockApplicationDecision.bAppID = BlockApplication.bAppID
                    JOIN Users ON fromID = Users.userID
                    WHERE BlockApplication.bAppStatus = $1 AND UserBlock.blockID = $2 AND BlockApplicationDecision.decision = $1
-                   AND BlockApplicationDecision.time >= $3 AND Users.userID != $4
-            ;`,
+                   AND BlockApplicationDecision.time >= $3 AND Users.userID != $4`,
             values: ['approved', blockID, loginTime, userID],
         };
         const queryResult = await pool.query(query);
