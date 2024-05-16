@@ -17,15 +17,15 @@ const processblockapplicationRouter = require('./routes/processBlockApplication'
 const addfriendRouter = require('./routes/addFriend');
 const getfriendapplicationRouter = require('./routes/getFriendApplication');
 const processfriendapplicationRouter = require('./routes/processFriendApplication');
-const getfriendRouter = require('./routes/getfriend');
+const getfriendRouter = require('./routes/getFriend');
 const addneighborRouter = require('./routes/addNeighbor');
 const getneighborRouter = require('./routes/getNeighbor');
 const getblockRouter = require('./routes/getBlock');
 const gethoodRouter = require('./routes/getHood');
 const addfollowblockRouter = require('./routes/addFollowBlock');
 const addthreadRouter = require('./routes/addThread');
+const getmessageRouter = require('./routes/getMessage');
 // const addmessageRouter = require('./routes/addMessage');
-// const getmessageRouter = require('./routes/getMessage');
 
 const app = express();
 
@@ -80,8 +80,8 @@ app.use('/api/getblock', getblockRouter);
 app.use('/api/gethood', gethoodRouter);
 app.use('/api/addfollowblock', addfollowblockRouter);
 app.use('/api/addthread', addthreadRouter);
+app.use('/api/getmessage', getmessageRouter);
 // app.use('/api/addmessage', addmessageRouter);
-// app.use('/api/getmessage', getmessageRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
