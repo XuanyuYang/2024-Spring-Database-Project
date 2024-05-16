@@ -60,7 +60,7 @@ router.post('/', async (req, res, next) => {
         const threadID = insertThreadResult.rows[0].threadid;
 
         // 新建Message，并获得该message的messageID
-        const pointText = `POINT(${mLocation.lng}, ${mLocation.lat})`;
+        const pointText = mLocation ? `POINT(${mLocation.lng}, ${mLocation.lat})` : null;
         const insertMessageQuery = {
             text: 'INSERT INTO Messages (threadID, mTitle, mCreateTime, mCreatorID, mLocation, textBody) ' +
                    'VALUES ($1, $2, $3, $4, ' + pointText + ', $5) ' +

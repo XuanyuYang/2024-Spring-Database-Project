@@ -25,7 +25,8 @@ const gethoodRouter = require('./routes/getHood');
 const addfollowblockRouter = require('./routes/addFollowBlock');
 const addthreadRouter = require('./routes/addThread');
 const getmessageRouter = require('./routes/getMessage');
-// const addmessageRouter = require('./routes/addMessage');
+const addmessageRouter = require('./routes/addMessage');
+const getprofileRouter = require('./routes/getprofile');
 
 const app = express();
 
@@ -81,7 +82,8 @@ app.use('/api/gethood', gethoodRouter);
 app.use('/api/addfollowblock', addfollowblockRouter);
 app.use('/api/addthread', addthreadRouter);
 app.use('/api/getmessage', getmessageRouter);
-// app.use('/api/addmessage', addmessageRouter);
+app.use('/api/addmessage', addmessageRouter);
+app.use('/api/getprofile', getprofileRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
